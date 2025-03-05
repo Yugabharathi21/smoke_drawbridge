@@ -50,7 +50,7 @@ function checkWin() {
         clearInterval(timer);
         document.getElementById("status").textContent = "HACK SUCCESS!";
         document.getElementById("status").style.color = "var(--neon-green)";
-        fetch("https://your-server.com/hackSuccess", { method: "POST" });
+        fetch("https://bridge-smookey.com/hackSuccess", { method: "POST" });
     }
 }
 
