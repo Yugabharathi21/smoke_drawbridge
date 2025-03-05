@@ -1,6 +1,6 @@
 const gridSize = 4;
 let grid = [];
-let timeLeft = 20;
+let timeLeft = 35;
 let timer;
 const colors = ["wire-red", "wire-blue", "wire-green", "wire-yellow"];
 
