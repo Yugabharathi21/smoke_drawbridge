@@ -1,77 +1,332 @@
-@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap');
-
-:root {
-    --bg-dark: #0a0f14;
-    --neon-green: #00ff66;
-    --neon-cyan: #00eaff;
-    --neon-red: #ff0033;
-    --neon-yellow: #ffcc00;
-    --neon-blue: #0099ff;
-    --tile-color: #1a1f27;
-    --tile-border: #00ffcc;
-}
-
+/* Main Styles */
 body {
-    background-color: var(--bg-dark);
-    color: var(--neon-cyan);
-    font-family: 'Orbitron', sans-serif;
-    text-align: center;
-    padding-top: 50px;
+    overflow: hidden;
+    margin: 0;
+    padding: 0;
+    font-family: 'Share Tech Mono', monospace;
+    background-color: transparent;
 }
 
-.hack-container {
-    background: rgba(10, 15, 20, 0.9);
+/* Container */
+#hackContainer {
+    display: none;
+    position: absolute;
+    width: 40vw;
+    min-width: 500px;
+    height: auto;
+    max-height: 80vh;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(16, 16, 24, 0.95);
+    border: 1px solid #30acff;
+    border-radius: 5px;
+    color: #eee;
+    box-shadow: 0 0 30px rgba(48, 172, 255, 0.5), 0 0 10px rgba(48, 172, 255, 0.3) inset;
     padding: 20px;
-    width: 350px;
-    margin: auto;
-    border-radius: 10px;
-    box-shadow: 0 0 10px var(--neon-cyan);
+    flex-direction: column;
+    align-items: center;
+    z-index: 1000;
+    backdrop-filter: blur(5px);
 }
 
-.grid {
-    display: grid;
-    grid-template-columns: repeat(4, 60px);
-    grid-gap: 10px;
+/* Header Section */
+#hackHeader {
+    width: 100%;
+    display: flex;
+    align-items: center;
     justify-content: center;
-    margin-top: 20px;
-}
-
-.tile {
-    width: 60px;
-    height: 60px;
-    background: var(--tile-color);
-    border: 2px solid var(--tile-border);
-    cursor: pointer;
-    transition: 0.3s;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
     position: relative;
 }
 
-/* Wire Lines */
-.tile::before, .tile::after {
-    content: "";
-    position: absolute;
-    width: 5px;
-    height: 100%;
-    background: transparent;
-    left: 50%;
-    transform: translateX(-50%);
-    transition: 0.3s;
+.header-text {
+    font-size: 24px;
+    color: #30acff;
+    font-weight: bold;
+    letter-spacing: 2px;
+    padding: 0 15px;
+    text-shadow: 0 0 10px rgba(48, 172, 255, 0.5);
 }
 
-.tile::after {
+.header-line {
+    height: 1px;
+    flex-grow: 1;
+    background: linear-gradient(to right, transparent, #30acff, transparent);
+}
+
+/* Status */
+#hackStatus {
+    font-size: 18px;
+    margin-bottom: 15px;
+    color: #ffcc00;
+    text-align: center;
+    letter-spacing: 1px;
+    font-weight: bold;
+}
+
+/* Timer */
+#timeRemaining {
     width: 100%;
-    height: 5px;
-    top: 50%;
-    transform: translateY(-50%);
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
 }
 
-/* Color for connected wires */
-.tile.connected::before,
-.tile.connected::after {
-    background: var(--neon-green);
+.time-text {
+    font-size: 16px;
+    color: #ff5555;
+    text-align: center;
+    margin-top: 5px;
 }
 
-/* Different wire colors */
-.tile.wire-red::before, .tile.wire-red::after { background: var(--neon-red); }
-.tile.wire-blue::before, .tile.wire-blue::after { background: var(--neon-blue); }
-.tile.wire-yellow::before, .tile.wire-yellow::after { background: var(--neon-yellow); }
+.time-bar {
+    width: 100%;
+    height: 8px;
+    background-color: rgba(255, 85, 85, 0.2);
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.time-fill {
+    height: 100%;
+    width: 100%;
+    background-color: #ff5555;
+    border-radius: 4px;
+    transition: width 0.1s linear;
+}
+
+/* Instructions */
+#hackInstructions {
+    text-align: center;
+    margin-bottom: 15px;
+    color: #aaa;
+    font-size: 14px;
+}
+
+/* Grid */
+#hackGrid {
+    display: grid;
+    gap: 10px;
+    margin: 10px auto;
+    justify-content: center;
+}
+
+.gridCell {
+    width: 65px;
+    height: 65px;
+    background-color: rgba(24, 24, 32, 0.9);
+    border: 1px solid #444;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-size: 24px;
+    user-select: none;
+    position: relative;
+    overflow: hidden;
+}
+
+.gridCell::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(to right, transparent, rgba(48, 172, 255, 0.5), transparent);
+    opacity: 0.5;
+}
+
+.gridCell:hover {
+    background-color: rgba(48, 48, 64, 0.9);
+    border-color: #30acff;
+    box-shadow: 0 0 10px rgba(48, 172, 255, 0.3);
+}
+
+.gridCell.target {
+    border-color: #30acff;
+    background-color: rgba(48, 172, 255, 0.3);
+}
+
+.gridCell.selected {
+    background-color: rgba(48, 172, 255, 0.7);
+    color: #fff;
+    border-color: #30acff;
+    box-shadow: 0 0 10px rgba(48, 172, 255, 0.5);
+}
+
+.gridCell.correct {
+    background-color: rgba(40, 200, 40, 0.7);
+    color: #fff;
+    border-color: #28c828;
+}
+
+.gridCell.incorrect {
+    background-color: rgba(200, 40, 40, 0.7);
+    color: #fff;
+    border-color: #c82828;
+}
+
+/* Footer */
+#hackFooter {
+    margin-top: 20px;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.status-box {
+    background-color: rgba(32, 32, 48, 0.8);
+    padding: 8px 15px;
+    border-radius: 4px;
+    border-left: 3px solid #30acff;
+}
+
+.status-label {
+    color: #aaa;
+    margin-right: 5px;
+}
+
+.status-value {
+    color: #30acff;
+    font-weight: bold;
+}
+
+button {
+    background-color: rgba(48, 172, 255, 0.1);
+    border: 1px solid #30acff;
+    color: #30acff;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: 'Share Tech Mono', monospace;
+    font-weight: bold;
+    letter-spacing: 1px;
+    position: relative;
+    overflow: hidden;
+}
+
+button:hover {
+    background-color: rgba(48, 172, 255, 0.3);
+    box-shadow: 0 0 15px rgba(48, 172, 255, 0.3);
+}
+
+button:active {
+    transform: scale(0.98);
+}
+
+button::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(45deg, transparent, rgba(48, 172, 255, 0.2), transparent);
+    transform: rotate(45deg);
+    animation: buttonGlow 3s linear infinite;
+}
+
+@keyframes buttonGlow {
+    0% {
+        transform: translateX(-100%) translateY(-100%) rotate(45deg);
+    }
+    100% {
+        transform: translateX(100%) translateY(100%) rotate(45deg);
+    }
+}
+
+/* Result Display */
+#hackResult {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(16, 16, 24, 0.95);
+    z-index: 10;
+}
+
+.result-icon {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 40px;
+    margin-bottom: 20px;
+}
+
+.result-icon.success {
+    background-color: rgba(40, 200, 40, 0.2);
+    border: 2px solid #28c828;
+    color: #28c828;
+    box-shadow: 0 0 20px rgba(40, 200, 40, 0.5);
+}
+
+.result-icon.success::after {
+    content: '✓';
+}
+
+.result-icon.failure {
+    background-color: rgba(200, 40, 40, 0.2);
+    border: 2px solid #c82828;
+    color: #c82828;
+    box-shadow: 0 0 20px rgba(200, 40, 40, 0.5);
+}
+
+.result-icon.failure::after {
+    content: '✕';
+}
+
+.result-text {
+    font-size: 28px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.result-text.success {
+    color: #28c828;
+}
+
+.result-text.failure {
+    color: #c82828;
+}
+
+/* Glitch Animation */
+@keyframes glitch {
+    0% {
+        transform: translate(0);
+    }
+    20% {
+        transform: translate(-2px, 2px);
+    }
+    40% {
+        transform: translate(-2px, -2px);
+    }
+    60% {
+        transform: translate(2px, 2px);
+    }
+    80% {
+        transform: translate(2px, -2px);
+    }
+    100% {
+        transform: translate(0);
+    }
+}
+
+.glitch {
+    animation: glitch 0.2s ease-in-out;
+}

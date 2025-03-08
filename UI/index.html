@@ -3,20 +3,43 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bridge Circuit Flow Hack</title>
+    <title>Bridge Hack</title>
+    <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="hack-container">
-        <h1>Bridge Security Override</h1>
-        <p>Rotate the tiles to connect the power before time runs out!</p>
+    <div id="hackContainer">
+        <div id="hackHeader">
+            <div class="header-line"></div>
+            <div class="header-text">BRIDGE CONTROL SYSTEM</div>
+            <div class="header-line"></div>
+        </div>
         
-        <div class="grid" id="grid"></div>
-
-        <p id="timer">Time Left: <span id="time-left">20</span>s</p>
-        <p id="status"></p>
-
-        <button id="start-btn">Start Hack</button>
+        <div id="hackStatus">MEMORY SEQUENCE REQUIRED</div>
+        
+        <div id="timeRemaining">
+            <div class="time-bar">
+                <div class="time-fill"></div>
+            </div>
+            <div class="time-text">TIME: <span id="timer">0</span>s</div>
+        </div>
+        
+        <div id="hackInstructions">Memorize the pattern, then recreate it.</div>
+        
+        <div id="hackGrid"></div>
+        
+        <div id="hackFooter">
+            <div class="status-box">
+                <span class="status-label">STATUS:</span>
+                <span id="progress" class="status-value">0/0</span>
+            </div>
+            <button id="submitHack">SUBMIT</button>
+        </div>
+        
+        <div id="hackResult">
+            <div class="result-icon"></div>
+            <div class="result-text"></div>
+        </div>
     </div>
 
     <script src="script.js"></script>
